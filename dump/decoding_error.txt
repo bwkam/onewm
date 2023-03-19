@@ -1,7 +1,0 @@
-{
-	expr: {
-		expr: EConst(CString(hi, DoubleQuotes))
-		pos: #pos
-	}
-	field: hi
-}
