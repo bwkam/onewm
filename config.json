@@ -1,0 +1,18 @@
+{
+  "config": {
+    "border_width": "10",
+    "window_gap": "3"
+  },
+
+  "rules": [
+    {
+      "Gimp": {
+        "name": "Gimp",
+        "state": "floating",
+        "manage": "on"
+      }
+    }
+  ],
+
+  "workspaces": ["1", "2", "3", "4", "5"]
+}
