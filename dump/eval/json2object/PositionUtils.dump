@@ -1,0 +1,71 @@
+@:directlyUsed @:used
+class json2object.PositionUtils {
+
+	public function new(content:String) {
+		this.linesInfo = new Array();
+		var s = 0;
+		var e = 0;
+		var i = 0;
+		var lineCount = 0;
+		while ((i < content.length)) switch ((content.charAt(i))) {
+			case "\n": {
+				e = i;
+				this.linesInfo.push({number : lineCount, start : s, end : e});
+				++ lineCount;
+				++ i;
+				s = i;
+			};
+			case "\r": {
+				e = i;
+				if ((content.charAt(i + 1) == "\n")) ++ e;
+				this.linesInfo.push({number : lineCount, start : s, end : e});
+				++ lineCount;
+				i = e + 1;
+				s = i;
+			};
+			default: ++ i
+		};
+		this.linesInfo.push({number : lineCount, start : s, end : i});
+	}
+
+	@:value(new Array<Position.Line>())
+	var linesInfo:Array<json2object.Line>;
+
+	public function convertPosition(position:hxjsonast.Position) {
+		var min = position.min;
+		var max = position.max;
+		var pos = {file : position.file, min : min + 1, max : max + 1, lines : []};
+		var bounds_min = 0;
+		var bounds_max = this.linesInfo.length - 1;
+		if ((min > this.linesInfo[0].end)) while ((bounds_max > bounds_min)) {
+			var i = Std.int((bounds_min + bounds_max) / 2);
+			var line = this.linesInfo[i];
+			if ((line.start == min)) {
+				bounds_min = i;
+				bounds_max = i;
+			};
+			if ((line.end < min)) bounds_min = i + 1;
+			if ((line.start > min || line.end >= min && line.start < min)) bounds_max = i;
+		};
+		{
+			var ` = bounds_min;
+			var `1 = this.linesInfo.length;
+			while ((` < `1)) {
+				var line = this.linesInfo[` ++];
+				if ((line.start <= min && line.end >= max)) {
+					pos.lines.push({number : line.number + 1, start : min - line.start + 1, end : max - line.start + 1});
+					break;
+				};
+				if ((line.start <= min && min <= line.end)) pos.lines.push({number : line.number + 1, start : min - line.start + 1, end : line.end + 1});
+				if ((line.start <= max && max <= line.end)) pos.lines.push({number : line.number + 1, start : line.start + 1, end : max - line.start + 1});
+				if ((line.start >= max || line.end >= max)) break;
+			};
+		};
+		return pos;
+	}
+
+	@:pure(inferredPure)
+	public inline function revert(position:json2object.Position) {
+		return new hxjsonast.Position(position.file, position.min - 1, position.max - 1);
+	}
+}

@@ -1,0 +1,282 @@
+@:directlyUsed @:used
+class hxjsonast.Parser {
+
+	@:pure(inferredPure)
+	function new(source:String, filename:String) {
+		this.source = source;
+		this.filename = filename;
+		this.pos = 0;
+	}
+
+	var source:String;
+
+	var filename:String;
+
+	var pos:Int;
+
+	function doParse() {
+		var result = this.parseRec();
+		var c;
+		while ((true)) {
+			c = StringTools.fastCodeAt(this.source, this.pos ++);
+			if ((! (c != null))) break;
+			switch ((c)) {
+				case 9, 10, 13, 32: {};
+				default: this.invalidChar()
+			};
+		};
+		return result;
+	}
+
+	function parseRec() {
+		while ((true)) {
+			var c = StringTools.fastCodeAt(this.source, this.pos ++);
+			switch ((c)) {
+				case 9, 10, 13, 32: {};
+				case 34: {
+					var save = this.pos;
+					return new hxjsonast.Json(hxjsonast.JsonValue.JString(this.parseString()), new hxjsonast.Position(this.filename, save - 1, this.pos));
+				};
+				case 45, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57: {
+					var start = this.pos - 1;
+					var minus = c == 45;
+					var digit = ! minus;
+					var zero = c == 48;
+					var point = false;
+					var e = false;
+					var pm = false;
+					var end = false;
+					while ((true)) {
+						switch ((StringTools.fastCodeAt(this.source, this.pos ++))) {
+							case 43, 45: {
+								if ((! e || pm)) this.invalidNumber(start);
+								digit = false;
+								pm = true;
+							};
+							case 46: {
+								if ((minus || point || e)) this.invalidNumber(start);
+								digit = false;
+								point = true;
+							};
+							case 48: {
+								if ((zero && ! point)) this.invalidNumber(start);
+								if ((minus)) {
+									minus = false;
+									zero = true;
+								};
+								digit = true;
+							};
+							case 49, 50, 51, 52, 53, 54, 55, 56, 57: {
+								if ((zero && ! point)) this.invalidNumber(start);
+								if ((minus)) minus = false;
+								digit = true;
+								zero = false;
+							};
+							case 69, 101: {
+								if ((minus || zero || e)) this.invalidNumber(start);
+								digit = false;
+								e = true;
+							};
+							default: {
+								if ((! digit)) this.invalidNumber(start);
+								this.pos --;
+								end = true;
+							}
+						};
+						if ((end)) break;
+					};
+					return new hxjsonast.Json(hxjsonast.JsonValue.JNumber(this.source.substr(start, this.pos - start)), new hxjsonast.Position(this.filename, start, this.pos));
+				};
+				case 91: {
+					var values = [];
+					var comma = null;
+					var startPos = this.pos - 1;
+					while ((true)) switch ((StringTools.fastCodeAt(this.source, this.pos ++))) {
+						case 9, 10, 13, 32: {};
+						case 44: if ((comma)) comma = false else this.invalidChar();
+						case 93: {
+							if ((comma == false)) this.invalidChar();
+							return new hxjsonast.Json(hxjsonast.JsonValue.JArray(values), new hxjsonast.Position(this.filename, startPos, this.pos));
+						};
+						default: {
+							if ((comma)) this.invalidChar();
+							this.pos --;
+							values.push(this.parseRec());
+							comma = true;
+						}
+					};
+				};
+				case 102: {
+					var save = this.pos;
+					if ((StringTools.fastCodeAt(this.source, this.pos ++) != 97 || StringTools.fastCodeAt(this.source, this.pos ++) != 108 || StringTools.fastCodeAt(this.source, this.pos ++) != 115 || StringTools.fastCodeAt(this.source, this.pos ++) != 101)) {
+						this.pos = save;
+						this.invalidChar();
+					};
+					return new hxjsonast.Json(hxjsonast.JsonValue.JBool(false), new hxjsonast.Position(this.filename, save - 1, this.pos));
+				};
+				case 110: {
+					var save = this.pos;
+					if ((StringTools.fastCodeAt(this.source, this.pos ++) != 117 || StringTools.fastCodeAt(this.source, this.pos ++) != 108 || StringTools.fastCodeAt(this.source, this.pos ++) != 108)) {
+						this.pos = save;
+						this.invalidChar();
+					};
+					return new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position(this.filename, save - 1, this.pos));
+				};
+				case 116: {
+					var save = this.pos;
+					if ((StringTools.fastCodeAt(this.source, this.pos ++) != 114 || StringTools.fastCodeAt(this.source, this.pos ++) != 117 || StringTools.fastCodeAt(this.source, this.pos ++) != 101)) {
+						this.pos = save;
+						this.invalidChar();
+					};
+					return new hxjsonast.Json(hxjsonast.JsonValue.JBool(true), new hxjsonast.Position(this.filename, save - 1, this.pos));
+				};
+				case 123: {
+					var fields = new Array();
+					var names = new haxe.ds.StringMap();
+					var field = null;
+					var fieldPos = null;
+					var comma = null;
+					var startPos = this.pos - 1;
+					while ((true)) switch ((StringTools.fastCodeAt(this.source, this.pos ++))) {
+						case 9, 10, 13, 32: {};
+						case 34: {
+							if ((field != null || comma)) this.invalidChar();
+							var fieldStartPos = this.pos - 1;
+							field = this.parseString();
+							fieldPos = new hxjsonast.Position(this.filename, fieldStartPos, this.pos);
+							if ((names.exists(field))) throw haxe.Exception.thrown(new hxjsonast.Error("Duplicate field name \"" + field + "\"", fieldPos)) else names.set(field, true);
+						};
+						case 44: if ((comma)) comma = false else this.invalidChar();
+						case 58: {
+							if ((field == null)) this.invalidChar();
+							fields.push(new hxjsonast.JObjectField(field, fieldPos, this.parseRec()));
+							field = null;
+							fieldPos = null;
+							comma = true;
+						};
+						case 125: {
+							if ((field != null || comma == false)) this.invalidChar();
+							return new hxjsonast.Json(hxjsonast.JsonValue.JObject(fields), new hxjsonast.Position(this.filename, startPos, this.pos));
+						};
+						default: this.invalidChar()
+					};
+				};
+				default: this.invalidChar()
+			};
+		};
+	}
+
+	function parseString() {
+		var start = this.pos;
+		var buf = null;
+		while ((true)) {
+			var c = StringTools.fastCodeAt(this.source, this.pos ++);
+			if ((c == 34)) break;
+			if ((c == 92)) {
+				if ((buf == null)) buf = new StringBuf();
+				buf.addSub(this.source, start, this.pos - start - 1);
+				c = StringTools.fastCodeAt(this.source, this.pos ++);
+				switch ((c)) {
+					case 34, 47, 92: buf.addChar(c);
+					case 98: buf.addChar(8);
+					case 102: buf.addChar(12);
+					case 110: buf.addChar(10);
+					case 114: buf.addChar(13);
+					case 116: buf.addChar(9);
+					case 117: {
+						var uc = Std.parseInt("0x" + this.source.substr(this.pos, 4));
+						this.pos += 4;
+						buf.addChar(uc);
+					};
+					default: throw haxe.Exception.thrown(new hxjsonast.Error("Invalid escape sequence \\" + String.fromCharCode(c), new hxjsonast.Position(this.filename, this.pos - 2, this.pos)))
+				};
+				start = this.pos;
+			} else if ((c == null)) {
+				this.pos --;
+				throw haxe.Exception.thrown(new hxjsonast.Error("Unclosed string", new hxjsonast.Position(this.filename, start - 1, this.pos)));
+			};
+		};
+		if ((buf == null)) return this.source.substr(start, this.pos - start - 1) else {
+			buf.addSub(this.source, start, this.pos - start - 1);
+			return buf.toString();
+		};
+	}
+
+	inline function parseNumber(c:Int) {
+		var start = this.pos - 1;
+		var minus = c == 45;
+		var digit = ! minus;
+		var zero = c == 48;
+		var point = false;
+		var e = false;
+		var pm = false;
+		var end = false;
+		while ((true)) {
+			switch ((StringTools.fastCodeAt(this.source, this.pos ++))) {
+				case 43, 45: {
+					if ((! e || pm)) this.invalidNumber(start);
+					digit = false;
+					pm = true;
+				};
+				case 46: {
+					if ((minus || point || e)) this.invalidNumber(start);
+					digit = false;
+					point = true;
+				};
+				case 48: {
+					if ((zero && ! point)) this.invalidNumber(start);
+					if ((minus)) {
+						minus = false;
+						zero = true;
+					};
+					digit = true;
+				};
+				case 49, 50, 51, 52, 53, 54, 55, 56, 57: {
+					if ((zero && ! point)) this.invalidNumber(start);
+					if ((minus)) minus = false;
+					digit = true;
+					zero = false;
+				};
+				case 69, 101: {
+					if ((minus || zero || e)) this.invalidNumber(start);
+					digit = false;
+					e = true;
+				};
+				default: {
+					if ((! digit)) this.invalidNumber(start);
+					this.pos --;
+					end = true;
+				}
+			};
+			if ((end)) break;
+		};
+		return new hxjsonast.Json(hxjsonast.JsonValue.JNumber(this.source.substr(start, this.pos - start)), new hxjsonast.Position(this.filename, start, this.pos));
+	}
+
+	inline function nextChar() {
+		return StringTools.fastCodeAt(this.source, this.pos ++);
+	}
+
+	@:pure(inferredPure)
+	inline function mk(pos:hxjsonast.Position, value:hxjsonast.JsonValue) {
+		return new hxjsonast.Json(value, pos);
+	}
+
+	@:pure(inferredPure)
+	inline function mkPos(min:Int, max:Int) {
+		return new hxjsonast.Position(this.filename, min, max);
+	}
+
+	function invalidChar() {
+		this.pos --;
+		throw haxe.Exception.thrown(new hxjsonast.Error("Invalid character: " + this.source.charAt(this.pos), new hxjsonast.Position(this.filename, this.pos, this.pos + 1)));
+	}
+
+	function invalidNumber(start:Int) {
+		throw haxe.Exception.thrown(new hxjsonast.Error("Invalid number: " + this.source.substring(start, this.pos), new hxjsonast.Position(this.filename, start, this.pos)));
+	}
+
+	public static inline function parse(source:String, filename:String) {
+		return new hxjsonast.Parser(source, filename).doParse();
+	}
+}

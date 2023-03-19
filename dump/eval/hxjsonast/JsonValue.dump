@@ -1,0 +1,9 @@
+@:directlyUsed @:used
+enum hxjsonast.JsonValue {
+	JString(s:String);
+	JNumber(s:String);
+	JObject(fields:Array<hxjsonast.JObjectField>);
+	JArray(values:Array<hxjsonast.Json>);
+	JBool(b:Bool);
+	JNull;
+}

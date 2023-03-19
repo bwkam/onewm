@@ -1,0 +1,44 @@
+@:directlyUsed @:used
+class JsonParser_10 extends json2object.reader.BaseParser<RuleModel> {
+
+	@:pure(inferredPure) @:value({ errorType : json2object.Error.ErrorType.NONE, putils : null, errors : null })
+	public function new(errors:Null<Array<json2object.Error>> = null, putils:Null<json2object.PositionUtils> = null, errorType:Null<json2object.ErrorType> = 0) {
+		super(errors, putils, errorType);
+	}
+
+	function onIncorrectType(pos:json2object.Position, variable:String) {
+		this.errors.push(json2object.Error.IncorrectType(variable, "{ ?state : Null<String>, ?manage : Null<String>, ?follow : Null<String>, ?focus : Null<String>, ?desktop : Null<String>, ?app : Null<String> }", pos));
+		super.onIncorrectType(pos, variable);
+	}
+
+	function loadJsonNull(pos:json2object.Position, variable:String) {
+		this.value = null;
+	}
+
+	function loadJsonObject(o:Array<hxjsonast.JObjectField>, pos:json2object.Position, variable:String) {
+		var assigned = new haxe.ds.StringMap();
+		this.objectSetupAssign(assigned, ["app", "desktop", "focus", "follow", "manage", "state"], [true, true, true, true, true, true]);
+		this.value = this.getAuto();
+		{
+			var ` = 0;
+			while ((` < o.length)) {
+				var field = o[`];
+				++ `;
+				switch ((field.name)) {
+					case "app": this.value.app = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "app", assigned, @:implicitCast cast this.value.app, pos);
+					case "desktop": this.value.desktop = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "desktop", assigned, @:implicitCast cast this.value.desktop, pos);
+					case "focus": this.value.focus = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "focus", assigned, @:implicitCast cast this.value.focus, pos);
+					case "follow": this.value.follow = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "follow", assigned, @:implicitCast cast this.value.follow, pos);
+					case "manage": this.value.manage = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "manage", assigned, @:implicitCast cast this.value.manage, pos);
+					case "state": this.value.state = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "state", assigned, @:implicitCast cast this.value.state, pos);
+					default: this.errors.push(json2object.Error.UnknownVariable(field.name, this.putils.convertPosition(field.namePos)))
+				};
+			};
+		};
+		this.objectErrors(assigned, pos);
+	}
+
+	public function getAuto() {
+		return {app : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), desktop : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), focus : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), follow : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), manage : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), state : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null)};
+	}
+}

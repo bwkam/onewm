@@ -1,0 +1,472 @@
+@:keep @:directlyUsed @:used
+class haxe.macro.Printer {
+
+	@:pure(inferredPure) @:value({ tabString : "\t" })
+	public function new(tabString:Null<String> = "\t") {
+		this.tabs = "";
+		this.tabString = tabString;
+	}
+
+	var tabs:String;
+
+	var tabString:String;
+
+	public function printUnop(op:haxe.macro.Unop) {
+		switch ((@:exhaustive enumIndex op)) {
+			case 0: return "++";
+			case 1: return "--";
+			case 2: return "!";
+			case 3: return "-";
+			case 4: return "~";
+			case 5: return "...";
+		};
+	}
+
+	public function printBinop(op:haxe.macro.Binop) {
+		switch ((@:exhaustive enumIndex op)) {
+			case 0: return "+";
+			case 1: return "*";
+			case 2: return "/";
+			case 3: return "-";
+			case 4: return "=";
+			case 5: return "==";
+			case 6: return "!=";
+			case 7: return ">";
+			case 8: return ">=";
+			case 9: return "<";
+			case 10: return "<=";
+			case 11: return "&";
+			case 12: return "|";
+			case 13: return "^";
+			case 14: return "&&";
+			case 15: return "||";
+			case 16: return "<<";
+			case 17: return ">>";
+			case 18: return ">>>";
+			case 19: return "%";
+			case 20: return this.printBinop(op[0]) + "=";
+			case 21: return "...";
+			case 22: return "=>";
+			case 23: return "in";
+		};
+	}
+
+	function escapeString(s:String, delim:String) {
+		return delim + StringTools.replace(StringTools.replace(StringTools.replace(StringTools.replace(StringTools.replace(StringTools.replace(s, "\n", "\\n"), "\t", "\\t"), "\r", "\\r"), "'", "\\'"), "\"", "\\\""), "\x00", "\\x00") + delim;
+	}
+
+	public function printFormatString(s:String) {
+		return this.escapeString(s, "'");
+	}
+
+	public function printString(s:String) {
+		return this.escapeString(s, "\"");
+	}
+
+	public function printConstant(c:haxe.macro.Constant) {
+		switch ((@:exhaustive enumIndex c)) {
+			case 0: return c[0];
+			case 1: return c[0];
+			case 2: {
+				var `4 = c[0];
+				var `5 = c[1];
+				if ((`5 == null)) return this.printString(`4) else if ((enumIndex `5 == 1)) return this.printFormatString(`4) else return this.printString(`4);
+			};
+			case 3: return c[0];
+			case 4: return "~/" + c[0] + "/" + c[1];
+		};
+	}
+
+	public function printTypeParam(param:haxe.macro.TypeParam) {
+		switch ((@:exhaustive enumIndex param)) {
+			case 0: return this.printComplexType(param[0]);
+			case 1: return this.printExpr(param[0]);
+		};
+	}
+
+	public function printTypePath(tp:haxe.macro.TypePath) {
+		var tmp = (if ((tp.pack.length > 0)) tp.pack.join(".") + "." else "") + tp.name + (if ((tp.sub != null)) "." + tp.sub else "");
+		var tmp;
+		if ((tp.params == null)) tmp = "" else if ((tp.params.length > 0)) {
+			var _this = tp.params;
+			var f = this.printTypeParam;
+			var ` = [];
+			{
+				var `1 = 0;
+				while ((`1 < _this.length)) `.push(f(_this[`1 ++]));
+			};
+			tmp = "<" + `.join(", ") + ">";
+		} else tmp = "";
+		return tmp + tmp;
+	}
+
+	public function printComplexType(ct:haxe.macro.ComplexType) {
+		switch ((@:exhaustive enumIndex ct)) {
+			case 0: return this.printTypePath(ct[0]);
+			case 1: {
+				var `9 = ct[0];
+				var `10 = ct[1];
+				var wrapArgumentsInParentheses;
+				if ((`9.length == 1)) {
+					var ` = `9[0];
+					switch ((enumIndex `)) {
+						case 0: wrapArgumentsInParentheses = false;
+						case 3: wrapArgumentsInParentheses = false;
+						case 5: wrapArgumentsInParentheses = if ((enumIndex `[0] == 0)) false else true;
+						default: wrapArgumentsInParentheses = true
+					};
+				} else wrapArgumentsInParentheses = true;
+				var f = this.printComplexType;
+				var ` = [];
+				{
+					var `1 = 0;
+					while ((`1 < `9.length)) `.push(f(`9[`1 ++]));
+				};
+				var argStr = `.join(", ");
+				var tmp = if ((enumIndex `10 == 1)) "(" + this.printComplexType(`10) + ")" else this.printComplexType(`10);
+				return (if ((wrapArgumentsInParentheses)) "(" + argStr + ")" else argStr) + " -> " + tmp;
+			};
+			case 2: {
+				var `3 = ct[0];
+				var ` = [];
+				{
+					var `1 = 0;
+					while ((`1 < `3.length)) `.push(this.printField(`3[`1 ++]) + "; ");
+				};
+				return "{ " + `.join("") + "}";
+			};
+			case 3: return "(" + this.printComplexType(ct[0]) + ")";
+			case 4: {
+				var `1 = ct[0];
+				var `2 = ct[1];
+				var ` = [];
+				{
+					var `1 = 0;
+					while ((`1 < `1.length)) `.push("> " + this.printTypePath(`1[`1 ++]) + ", ");
+				};
+				var types = `.join("");
+				var `2 = [];
+				{
+					var `3 = 0;
+					while ((`3 < `2.length)) `2.push(this.printField(`2[`3 ++]) + "; ");
+				};
+				return "{" + types + `2.join("") + "}";
+			};
+			case 5: return "?" + this.printComplexType(ct[0]);
+			case 6: return ct[0] + ":" + this.printComplexType(ct[1]);
+			case 7: {
+				var `5 = ct[0];
+				var f = this.printComplexType;
+				var ` = [];
+				{
+					var `1 = 0;
+					while ((`1 < `5.length)) `.push(f(`5[`1 ++]));
+				};
+				return `.join(" & ");
+			};
+		};
+	}
+
+	public function printMetadata(meta:haxe.macro.MetadataEntry) {
+		return "@" + meta.name + (if ((meta.params != null && meta.params.length > 0)) "(" + this.printExprs(meta.params, ", ") + ")" else "");
+	}
+
+	public function printAccess(access:haxe.macro.Access) {
+		switch ((@:exhaustive enumIndex access)) {
+			case 0: return "public";
+			case 1: return "private";
+			case 2: return "static";
+			case 3: return "override";
+			case 4: return "dynamic";
+			case 5: return "inline";
+			case 6: return "macro";
+			case 7: return "final";
+			case 8: return "extern";
+			case 9: return "abstract";
+			case 10: return "overload";
+		};
+	}
+
+	public function printField(field:haxe.macro.Field) {
+		var tmp = if ((field.doc != null && field.doc != "")) "/**\n" + this.tabs + this.tabString + StringTools.replace(field.doc, "\n", "\n" + this.tabs + this.tabString) + "\n" + this.tabs + "**/\n" + this.tabs else "";
+		var tmp;
+		if ((field.meta != null && field.meta.length > 0)) {
+			var _this = field.meta;
+			var f = this.printMetadata;
+			var ` = [];
+			{
+				var `1 = 0;
+				while ((`1 < _this.length)) `.push(f(_this[`1 ++]));
+			};
+			tmp = `.join("\n" + this.tabs) + ("\n" + this.tabs);
+		} else tmp = "";
+		var tmp = tmp + tmp;
+		var tmp;
+		if ((field.access != null && field.access.length > 0)) {
+			var access = field.access;
+			var _this;
+			if ((Lambda.has(access, haxe.macro.Access.AFinal))) {
+				var ` = [];
+				{
+					var `1 = 0;
+					while ((`1 < access.length)) {
+						var v = access[`1];
+						++ `1;
+						if ((enumIndex v != 7)) `.push(v);
+					};
+				};
+				_this = `.concat([haxe.macro.Access.AFinal]);
+			} else _this = access;
+			var f = this.printAccess;
+			var ` = [];
+			{
+				var `1 = 0;
+				var `2 = _this;
+				while ((`1 < `2.length)) `.push(f(`2[`1 ++]));
+			};
+			tmp = `.join(" ") + " ";
+		} else tmp = "";
+		var tmp = tmp + tmp;
+		var ` = field.kind;
+		var tmp;
+		switch ((@:exhaustive enumIndex `)) {
+			case 0: tmp = (if ((field.access != null && Lambda.has(field.access, haxe.macro.Access.AFinal))) "" else "var ") + ("" + field.name) + this.opt(`[0], this.printComplexType, " : ") + this.opt(`[1], this.printExpr, " = ");
+			case 1: tmp = "function " + field.name + this.printFunction(`[0], null);
+			case 2: tmp = "var " + field.name + "(" + `[0] + ", " + `[1] + ")" + this.opt(`[2], this.printComplexType, " : ") + this.opt(`[3], this.printExpr, " = ");
+		};
+		return tmp + tmp;
+	}
+
+	public function printTypeParamDecl(tpd:haxe.macro.TypeParamDecl) {
+		var tmp;
+		if ((tpd.meta != null && tpd.meta.length > 0)) {
+			var _this = tpd.meta;
+			var f = this.printMetadata;
+			var ` = [];
+			{
+				var `1 = 0;
+				while ((`1 < _this.length)) `.push(f(_this[`1 ++]));
+			};
+			tmp = `.join(" ") + " ";
+		} else tmp = "";
+		var tmp = tmp + tpd.name;
+		var tmp;
+		if ((tpd.params != null && tpd.params.length > 0)) {
+			var _this = tpd.params;
+			var f = this.printTypeParamDecl;
+			var ` = [];
+			{
+				var `1 = 0;
+				while ((`1 < _this.length)) `.push(f(_this[`1 ++]));
+			};
+			tmp = "<" + `.join(", ") + ">";
+		} else tmp = "";
+		var tmp = tmp + tmp;
+		var tmp;
+		if ((tpd.constraints != null && tpd.constraints.length > 0)) {
+			var _this = tpd.constraints;
+			var f = this.printComplexType;
+			var ` = [];
+			{
+				var `1 = 0;
+				while ((`1 < _this.length)) `.push(f(_this[`1 ++]));
+			};
+			tmp = ":(" + `.join(", ") + ")";
+		} else tmp = "";
+		return tmp + tmp;
+	}
+
+	public function printFunctionArg(arg:haxe.macro.FunctionArg) {
+		return (if ((arg.opt)) "?" else "") + arg.name + this.opt(arg.type, this.printComplexType, ":") + this.opt(arg.value, this.printExpr, " = ");
+	}
+
+	public function printFunction(func:haxe.macro.Function, kind:Null<haxe.macro.FunctionKind> = null) {
+		var ` = func.args;
+		var skipParentheses = `.length == 1 && (`[0].type == null && kind == haxe.macro.FunctionKind.FArrow);
+		var tmp;
+		if ((func.params == null)) tmp = "" else if ((func.params.length > 0)) {
+			var _this = func.params;
+			var f = this.printTypeParamDecl;
+			var ` = [];
+			{
+				var `1 = 0;
+				while ((`1 < _this.length)) `.push(f(_this[`1 ++]));
+			};
+			tmp = "<" + `.join(", ") + ">";
+		} else tmp = "";
+		var tmp = tmp + (if ((skipParentheses)) "" else "(");
+		var _this = func.args;
+		var f = this.printFunctionArg;
+		var ` = [];
+		{
+			var `1 = 0;
+			while ((`1 < _this.length)) `.push(f(_this[`1 ++]));
+		};
+		return tmp + `.join(", ") + (if ((skipParentheses)) "" else ")") + (if ((kind == haxe.macro.FunctionKind.FArrow)) " ->" else "") + this.opt(func.ret, this.printComplexType, ":") + this.opt(func.expr, this.printExpr, " ");
+	}
+
+	public function printVar(v:haxe.macro.Var) {
+		var s = v.name + this.opt(v.type, this.printComplexType, ":") + this.opt(v.expr, this.printExpr, " = ");
+		var ` = v.meta;
+		if ((` == null)) return s else if ((`.length == 0)) return s else {
+			var f = this.printMetadata;
+			var ` = [];
+			{
+				var `1 = 0;
+				while ((`1 < `.length)) `.push(f(`[`1 ++]));
+			};
+			return `.join(" ") + " " + s;
+		};
+	}
+
+	public function printObjectFieldKey(of:haxe.macro.ObjectField) {
+		var ` = of.quotes;
+		if ((` == null)) return of.field else switch ((@:exhaustive enumIndex `)) {
+			case 0: return of.field;
+			case 1: return "\"" + of.field + "\"";
+		};
+	}
+
+	public function printObjectField(of:haxe.macro.ObjectField) {
+		return "" + this.printObjectFieldKey(of) + " : " + this.printExpr(of.expr);
+	}
+
+	public function printExpr(e:haxe.macro.Expr) {
+		if ((e == null)) return "#NULL" else {
+			var ` = e.expr;
+			switch ((@:exhaustive enumIndex `)) {
+				case 0: return this.printConstant(`[0]);
+				case 1: return "" + this.printExpr(`[0]) + "[" + this.printExpr(`[1]) + "]";
+				case 2: return "" + this.printExpr(`[1]) + " " + this.printBinop(`[0]) + " " + this.printExpr(`[2]);
+				case 3: return "" + this.printExpr(`[0]) + "." + `[1];
+				case 4: return "(" + this.printExpr(`[0]) + ")";
+				case 5: {
+					var `13 = `[0];
+					var ` = [];
+					{
+						var `1 = 0;
+						while ((`1 < `13.length)) `.push(this.printObjectField(`13[`1 ++]));
+					};
+					return "{ " + `.join(", ") + " }";
+				};
+				case 6: return "[" + this.printExprs(`[0], ", ") + "]";
+				case 7: return "" + this.printExpr(`[0]) + "(" + this.printExprs(`[1], ", ") + ")";
+				case 8: return "new " + this.printTypePath(`[0]) + "(" + this.printExprs(`[1], ", ") + ")";
+				case 9: {
+					var `50 = `[0];
+					var `52 = `[2];
+					if ((`[1])) return this.printExpr(`52) + this.printUnop(`50) else return this.printUnop(`50) + this.printExpr(`52);
+				};
+				case 10: {
+					var `60 = `[0];
+					var f = this.printVar;
+					var ` = [];
+					{
+						var `1 = 0;
+						while ((`1 < `60.length)) `.push(f(`60[`1 ++]));
+					};
+					return "var " + `.join(", ");
+				};
+				case 11: {
+					var `38 = `[0];
+					var `39 = `[1];
+					if ((`38 == null)) return (if ((`38 != haxe.macro.FunctionKind.FArrow)) "function" else "") + this.printFunction(`39, `38) else if ((enumIndex `38 == 1)) return (if ((`38[1])) "inline " else "") + ("function " + `38[0]) + this.printFunction(`39, null) else return (if ((`38 != haxe.macro.FunctionKind.FArrow)) "function" else "") + this.printFunction(`39, `38);
+				};
+				case 12: {
+					var `1 = `[0];
+					if ((`1.length == 0)) return "{ }" else {
+						var old = this.tabs;
+						this.tabs += this.tabString;
+						var s = "{\n" + this.tabs + this.printExprs(`1, ";\n" + this.tabs);
+						this.tabs = old;
+						return s + (";\n" + this.tabs + "}");
+					};
+				};
+				case 13: return "for (" + this.printExpr(`[0]) + ") " + this.printExpr(`[1]);
+				case 14: {
+					var `4 = `[0];
+					var `5 = `[1];
+					var `6 = `[2];
+					if ((`6 == null)) return "if (" + this.printExpr(`4) + ") " + this.printExpr(`5) else return "if (" + this.printExpr(`4) + ") " + this.printExpr(`5) + " else " + this.printExpr(`6);
+				};
+				case 15: {
+					var `17 = `[0];
+					var `18 = `[1];
+					if ((`[2])) return "while (" + this.printExpr(`17) + ") " + this.printExpr(`18) else return "do " + this.printExpr(`18) + " while (" + this.printExpr(`17) + ")";
+				};
+				case 16: {
+					var `15 = `[1];
+					var `16 = `[2];
+					var old = this.tabs;
+					this.tabs += this.tabString;
+					var s = "switch " + this.printExpr(`[0]) + " {\n" + this.tabs;
+					var ` = [];
+					{
+						var `1 = 0;
+						while ((`1 < `15.length)) {
+							var v = `15[`1];
+							++ `1;
+							`.push("case " + this.printExprs(v.values, ", ") + (if ((v.guard != null)) " if (" + this.printExpr(v.guard) + "):" else ":") + (if ((v.expr != null)) this.opt(v.expr, this.printExpr, null) + ";" else ""));
+						};
+					};
+					var s = s + `.join("\n" + this.tabs);
+					if ((`16 != null)) s += "\n" + this.tabs + "default:" + (if ((`16.expr == null)) "" else this.printExpr(`16) + ";");
+					this.tabs = old;
+					return s + ("\n" + this.tabs + "}");
+				};
+				case 17: {
+					var `46 = `[1];
+					var tmp = "try " + this.printExpr(`[0]);
+					var ` = [];
+					{
+						var `1 = 0;
+						while ((`1 < `46.length)) {
+							var v = `46[`1];
+							++ `1;
+							`.push(" catch(" + v.name + (if ((v.type == null)) "" else ":" + this.printComplexType(v.type)) + ") " + this.printExpr(v.expr));
+						};
+					};
+					return tmp + `.join("");
+				};
+				case 18: return "return" + this.opt(`[0], this.printExpr, " ");
+				case 19: return "break";
+				case 20: return "continue";
+				case 21: return "untyped " + this.printExpr(`[0]);
+				case 22: return "throw " + this.printExpr(`[0]);
+				case 23: {
+					var `53 = `[0];
+					var `54 = `[1];
+					if ((`54 != null)) return "cast(" + this.printExpr(`53) + ", " + this.printComplexType(`54) + ")" else return "cast " + this.printExpr(`53);
+				};
+				case 24: return "#DISPLAY(" + this.printExpr(`[0]) + ")";
+				case 25: return "#DISPLAY(" + this.printTypePath(`[0]) + ")";
+				case 26: return "" + this.printExpr(`[0]) + " ? " + this.printExpr(`[1]) + " : " + this.printExpr(`[2]);
+				case 27: return "(" + this.printExpr(`[0]) + " : " + this.printComplexType(`[1]) + ")";
+				case 28: {
+					var `24 = `[0];
+					var `25 = `[1];
+					if ((`24.name == ":implicitReturn")) {
+						var `29 = `25.expr;
+						if ((enumIndex `29 == 18)) return this.printExpr(`29[0]) else return this.printMetadata(`24) + " " + this.printExpr(`25);
+					} else return this.printMetadata(`24) + " " + this.printExpr(`25);
+				};
+				case 29: return "" + this.printExpr(`[0]) + " is " + this.printComplexType(`[1]);
+			};
+		};
+	}
+
+	public function printExprs(el:Array<haxe.macro.Expr>, sep:String) {
+		var f = this.printExpr;
+		var ` = [];
+		{
+			var `1 = 0;
+			while ((`1 < el.length)) `.push(f(el[`1 ++]));
+		};
+		return `.join(sep);
+	}
+
+	@:value({ prefix : "" })
+	function opt<T>(v:opt.T, f:opt.T -> String, prefix:String = "") {
+		if ((v == null)) return "" else return prefix + f(v);
+	}
+}

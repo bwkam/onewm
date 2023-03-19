@@ -1,0 +1,25 @@
+@:directlyUsed @:used
+class JsonParser_6 extends json2object.reader.BaseParser<String> {
+
+	@:pure(inferredPure) @:value({ errorType : json2object.Error.ErrorType.NONE, putils : null, errors : null })
+	public function new(errors:Null<Array<json2object.Error>> = null, putils:Null<json2object.PositionUtils> = null, errorType:Null<json2object.ErrorType> = 0) {
+		super(errors, putils, errorType);
+	}
+
+	function onIncorrectType(pos:json2object.Position, variable:String) {
+		this.errors.push(json2object.Error.IncorrectType(variable, "String", pos));
+		super.onIncorrectType(pos, variable);
+	}
+
+	function loadJsonNull(pos:json2object.Position, variable:String) {
+		this.value = null;
+	}
+
+	function loadJsonString(s:String, pos:json2object.Position, variable:String) {
+		this.value = s;
+	}
+
+	public function getAuto() {
+		return new JsonParser_6([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null);
+	}
+}

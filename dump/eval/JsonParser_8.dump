@@ -1,0 +1,64 @@
+@:directlyUsed @:used
+class JsonParser_8 extends json2object.reader.BaseParser<Map<String, RuleModel>> {
+
+	@:pure(inferredPure) @:value({ errorType : json2object.Error.ErrorType.NONE, putils : null, errors : null })
+	public function new(errors:Null<Array<json2object.Error>> = null, putils:Null<json2object.PositionUtils> = null, errorType:Null<json2object.ErrorType> = 0) {
+		super(errors, putils, errorType);
+	}
+
+	function onIncorrectType(pos:json2object.Position, variable:String) {
+		this.errors.push(json2object.Error.IncorrectType(variable, "haxe.ds.Map<String, RuleModel>", pos));
+		super.onIncorrectType(pos, variable);
+	}
+
+	function loadJsonNull(pos:json2object.Position, variable:String) {
+		this.value = null;
+	}
+
+	function loadJsonObject(o:Array<hxjsonast.JObjectField>, pos:json2object.Position, variable:String) {
+		this.value = cast new haxe.ds.StringMap();
+		{
+			var ` = 0;
+			while ((` < o.length)) {
+				var field = o[`];
+				++ `;
+				{
+					var this = this.value;
+					var key;
+					try {
+						key = new JsonParser_6(this.errors, this.putils, cast 2).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JString(field.name), new hxjsonast.Position(pos.file, pos.min - 1, pos.max - 1)), variable);
+					} catch (`:Dynamic) {
+						{
+							null;
+						};
+						var ` = haxe.Exception.caught(`).unwrap();
+						if ((Std.isOfType(`, json2object.InternalError))) {
+							var e = cast `;
+							if ((e != json2object.InternalError.ParsingThrow)) throw haxe.Exception.thrown(e);
+							continue;
+						} else throw `;
+					};
+					var value;
+					try {
+						value = new JsonParser_10(this.errors, this.putils, cast 2).loadJson(field.value, field.name);
+					} catch (`:Dynamic) {
+						{
+							null;
+						};
+						var ` = haxe.Exception.caught(`).unwrap();
+						if ((Std.isOfType(`, json2object.InternalError))) {
+							var e = cast `;
+							if ((e != json2object.InternalError.ParsingThrow)) throw haxe.Exception.thrown(e);
+							continue;
+						} else throw `;
+					};
+					cast this.set(key, value);
+				};
+			};
+		};
+	}
+
+	public function getAuto() {
+		return new JsonParser_8([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null);
+	}
+}

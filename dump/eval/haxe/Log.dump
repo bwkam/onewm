@@ -1,0 +1,19 @@
+@:keep @:directlyUsed @:used
+class haxe.Log {
+
+	public static function formatOutput(v:Dynamic, infos:haxe.PosInfos) {
+		var str = Std.string(v);
+		if ((infos == null)) return str;
+		var pstr = infos.fileName + ":" + infos.lineNumber;
+		if ((infos.customParams != null)) {
+			var ` = 0;
+			var `1 = infos.customParams;
+			while ((` < `1.length)) str += ", " + Std.string(`1[` ++]);
+		};
+		return pstr + ": " + str;
+	}
+
+	public static dynamic function trace(v:Dynamic, infos:Null<haxe.PosInfos> = null) {
+		Sys.println(haxe.Log.formatOutput(v, infos));
+	}
+}

@@ -1,0 +1,1 @@
+typedef json2object.reader.ParserInfo = { packs : Array<String>, clsName : String }

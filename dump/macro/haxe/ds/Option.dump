@@ -1,0 +1,4 @@
+enum haxe.ds.Option<T> {
+	Some(v:haxe.ds.Option.T);
+	None;
+}

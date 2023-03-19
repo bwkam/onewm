@@ -1,0 +1,1 @@
+typedef json2object.Position = { min : Int, max : Int, lines : Array<json2object.Line>, file : String }

@@ -1,15 +1,22 @@
 {
   "config": {
-    "border_width": "10",
-    "window_gap": "3"
+    "global": {
+      "border_width": "10",
+      "window_gap": "3"
+    }
   },
 
   "rules": [
     {
       "Gimp": {
-        "name": "Gimp",
+        "app": "Gimp",
         "state": "floating",
         "manage": "on"
+      },
+      "Photoshop": {
+        "app": "Photoshop",
+        "state": "tiling",
+        "manage": "off"
       }
     }
   ],

@@ -1,0 +1,1 @@
+typedef json2object.Line = { start : Int, number : Int, end : Int }

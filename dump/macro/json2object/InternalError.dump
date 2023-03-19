@@ -1,0 +1,11 @@
+enum json2object.InternalError {
+	AbstractNoJsonRepresentation(name:String);
+	CannotGenerateSchema(name:String);
+	HandleExpr;
+	ParsingThrow;
+	UnsupportedAbstractEnumType(name:String);
+	UnsupportedEnumAbstractValue(name:String);
+	UnsupportedMapKeyType(name:String);
+	UnsupportedSchemaObjectType(name:String);
+	UnsupportedSchemaType(type:String);
+}

@@ -1,0 +1,13 @@
+@:directlyUsed @:used
+class hxjsonast.Error {
+
+	@:pure(inferredPure)
+	public function new(message:String, pos:hxjsonast.Position) {
+		this.message = message;
+		this.pos = pos;
+	}
+
+	public var message:String;
+
+	public var pos:hxjsonast.Position;
+}

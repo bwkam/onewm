@@ -1,0 +1,58 @@
+@:directlyUsed @:used
+class JsonParser_14 extends json2object.reader.BaseParser<ConfigModel> {
+
+	@:pure(inferredPure) @:value({ errorType : json2object.Error.ErrorType.NONE, putils : null, errors : null })
+	public function new(errors:Null<Array<json2object.Error>> = null, putils:Null<json2object.PositionUtils> = null, errorType:Null<json2object.ErrorType> = 0) {
+		super(errors, putils, errorType);
+	}
+
+	function onIncorrectType(pos:json2object.Position, variable:String) {
+		this.errors.push(json2object.Error.IncorrectType(variable, "{ ?window_gap : Null<String>, ?top_padding : Null<String>, ?top_monocle_padding : Null<String>, ?split_ratio : Null<String>, ?single_monocle : Null<String>, ?right_padding : Null<String>, ?right_monocle_padding : Null<String>, ?pointer_follows_monitor : Null<String>, ?pointer_follows_focus : Null<String>, ?normal_border_color : Null<String>, ?left_padding : Null<String>, ?left_monocle_padding : Null<String>, ?gapless_monocle : Null<String>, ?focused_border_color : Null<String>, ?focus_follows_pointer : Null<String>, ?click_to_focus : Null<String>, ?center_pseudo_tiled : Null<String>, ?borderless_monocle : Null<String>, ?border_width : Null<String>, ?active_border_color : Null<String> }", pos));
+		super.onIncorrectType(pos, variable);
+	}
+
+	function loadJsonNull(pos:json2object.Position, variable:String) {
+		this.value = null;
+	}
+
+	function loadJsonObject(o:Array<hxjsonast.JObjectField>, pos:json2object.Position, variable:String) {
+		var assigned = new haxe.ds.StringMap();
+		this.objectSetupAssign(assigned, ["active_border_color", "border_width", "borderless_monocle", "center_pseudo_tiled", "click_to_focus", "focus_follows_pointer", "focused_border_color", "gapless_monocle", "left_monocle_padding", "left_padding", "normal_border_color", "pointer_follows_focus", "pointer_follows_monitor", "right_monocle_padding", "right_padding", "single_monocle", "split_ratio", "top_monocle_padding", "top_padding", "window_gap"], [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]);
+		this.value = this.getAuto();
+		{
+			var ` = 0;
+			while ((` < o.length)) {
+				var field = o[`];
+				++ `;
+				switch ((field.name)) {
+					case "active_border_color": this.value.active_border_color = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "active_border_color", assigned, @:implicitCast cast this.value.active_border_color, pos);
+					case "border_width": this.value.border_width = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "border_width", assigned, @:implicitCast cast this.value.border_width, pos);
+					case "borderless_monocle": this.value.borderless_monocle = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "borderless_monocle", assigned, @:implicitCast cast this.value.borderless_monocle, pos);
+					case "center_pseudo_tiled": this.value.center_pseudo_tiled = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "center_pseudo_tiled", assigned, @:implicitCast cast this.value.center_pseudo_tiled, pos);
+					case "click_to_focus": this.value.click_to_focus = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "click_to_focus", assigned, @:implicitCast cast this.value.click_to_focus, pos);
+					case "focus_follows_pointer": this.value.focus_follows_pointer = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "focus_follows_pointer", assigned, @:implicitCast cast this.value.focus_follows_pointer, pos);
+					case "focused_border_color": this.value.focused_border_color = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "focused_border_color", assigned, @:implicitCast cast this.value.focused_border_color, pos);
+					case "gapless_monocle": this.value.gapless_monocle = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "gapless_monocle", assigned, @:implicitCast cast this.value.gapless_monocle, pos);
+					case "left_monocle_padding": this.value.left_monocle_padding = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "left_monocle_padding", assigned, @:implicitCast cast this.value.left_monocle_padding, pos);
+					case "left_padding": this.value.left_padding = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "left_padding", assigned, @:implicitCast cast this.value.left_padding, pos);
+					case "normal_border_color": this.value.normal_border_color = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "normal_border_color", assigned, @:implicitCast cast this.value.normal_border_color, pos);
+					case "pointer_follows_focus": this.value.pointer_follows_focus = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "pointer_follows_focus", assigned, @:implicitCast cast this.value.pointer_follows_focus, pos);
+					case "pointer_follows_monitor": this.value.pointer_follows_monitor = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "pointer_follows_monitor", assigned, @:implicitCast cast this.value.pointer_follows_monitor, pos);
+					case "right_monocle_padding": this.value.right_monocle_padding = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "right_monocle_padding", assigned, @:implicitCast cast this.value.right_monocle_padding, pos);
+					case "right_padding": this.value.right_padding = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "right_padding", assigned, @:implicitCast cast this.value.right_padding, pos);
+					case "single_monocle": this.value.single_monocle = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "single_monocle", assigned, @:implicitCast cast this.value.single_monocle, pos);
+					case "split_ratio": this.value.split_ratio = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "split_ratio", assigned, @:implicitCast cast this.value.split_ratio, pos);
+					case "top_monocle_padding": this.value.top_monocle_padding = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "top_monocle_padding", assigned, @:implicitCast cast this.value.top_monocle_padding, pos);
+					case "top_padding": this.value.top_padding = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "top_padding", assigned, @:implicitCast cast this.value.top_padding, pos);
+					case "window_gap": this.value.window_gap = cast this.loadObjectField(new JsonParser_12(this.errors, this.putils, cast 1).loadJson, field, "window_gap", assigned, @:implicitCast cast this.value.window_gap, pos);
+					default: this.errors.push(json2object.Error.UnknownVariable(field.name, this.putils.convertPosition(field.namePos)))
+				};
+			};
+		};
+		this.objectErrors(assigned, pos);
+	}
+
+	public function getAuto() {
+		return {active_border_color : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), border_width : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), borderless_monocle : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), center_pseudo_tiled : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), click_to_focus : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), focus_follows_pointer : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), focused_border_color : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), gapless_monocle : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), left_monocle_padding : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), left_padding : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), normal_border_color : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), pointer_follows_focus : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), pointer_follows_monitor : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), right_monocle_padding : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), right_padding : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), single_monocle : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), split_ratio : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), top_monocle_padding : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), top_padding : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null), window_gap : new JsonParser_12([], this.putils, cast 0).loadJson(new hxjsonast.Json(hxjsonast.JsonValue.JNull, new hxjsonast.Position("", 0, 1)), null)};
+	}
+}

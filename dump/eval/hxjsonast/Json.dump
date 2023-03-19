@@ -1,0 +1,13 @@
+@:directlyUsed @:used @:structInit
+class hxjsonast.Json {
+
+	@:pure(inferredPure)
+	public inline function new(value:hxjsonast.JsonValue, pos:hxjsonast.Position) {
+		this.value = value;
+		this.pos = pos;
+	}
+
+	public var value:hxjsonast.JsonValue;
+
+	public var pos:hxjsonast.Position;
+}

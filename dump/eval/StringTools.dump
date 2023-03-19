@@ -1,0 +1,49 @@
+@:keep @:directlyUsed @:used
+class StringTools {
+
+	public static function startsWith(s:String, start:String) {
+		if ((s.length >= start.length)) return s.lastIndexOf(start, 0) == 0 else return false;
+	}
+
+	public static function isSpace(s:String, pos:Int) {
+		var c = s.charCodeAt(pos);
+		if ((! (c > 8 && c < 14))) return c == 32 else return true;
+	}
+
+	public static function ltrim(s:String) {
+		var l = s.length;
+		var r = 0;
+		while ((r < l && StringTools.isSpace(s, r))) ++ r;
+		if ((r > 0)) return s.substr(r, l - r) else return s;
+	}
+
+	public static function rtrim(s:String) {
+		var l = s.length;
+		var r = 0;
+		while ((r < l && StringTools.isSpace(s, l - r - 1))) ++ r;
+		if ((r > 0)) return s.substr(0, l - r) else return s;
+	}
+
+	public static function trim(s:String) {
+		return StringTools.ltrim(StringTools.rtrim(s));
+	}
+
+	public static function lpad(s:String, c:String, l:Int) {
+		if ((c.length <= 0)) return s;
+		var buf = new StringBuf();
+		l -= s.length;
+		while ((buf.get_length() < l)) buf.add(c);
+		buf.add(s);
+		return buf.toString();
+	}
+
+	@:has_untyped
+	public static function fastCodeAt(s:String, index:Int) {
+		return s.cca(index);
+	}
+
+	@:has_untyped
+	public static function unsafeCodeAt(s:String, index:Int) {
+		return s.cca(index);
+	}
+}

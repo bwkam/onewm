@@ -1,0 +1,1 @@
+typedef RuleModel = { ?state : Null<String>, ?manage : Null<String>, ?follow : Null<String>, ?focus : Null<String>, ?desktop : Null<String>, ?app : Null<String> }
