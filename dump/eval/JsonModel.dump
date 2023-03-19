@@ -1,1 +1,0 @@
-typedef JsonModel = { workspaces : Array<String>, rules : Array<Map<String, RuleModel>>, config : Map<String, ConfigModel> }

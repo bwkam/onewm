@@ -1,6 +1,0 @@
-@:used
-enum haxe.macro.FunctionKind {
-	FAnonymous;
-	FNamed(name:String, ?inlined:Null<Bool>);
-	FArrow;
-}

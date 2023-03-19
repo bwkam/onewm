@@ -1,1 +1,0 @@
-typedef json2object.reader.JsonType = { params : Array<haxe.macro.Type>, name : String, jtype : String }

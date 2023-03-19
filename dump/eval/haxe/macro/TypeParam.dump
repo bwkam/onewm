@@ -1,5 +1,0 @@
-@:used
-enum haxe.macro.TypeParam {
-	TPType(t:haxe.macro.ComplexType);
-	TPExpr(e:haxe.macro.Expr);
-}

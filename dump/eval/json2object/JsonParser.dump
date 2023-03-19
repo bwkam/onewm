@@ -1,3 +1,0 @@
-@:genericBuild(json2object.reader.DataBuilder.build())
-class json2object.JsonParser<T> {
-}

@@ -1,9 +1,0 @@
-enum json2object.Error {
-	IncorrectType(variable:String, expected:String, pos:json2object.Position);
-	IncorrectEnumValue(value:String, expected:String, pos:json2object.Position);
-	InvalidEnumConstructor(value:String, expected:String, pos:json2object.Position);
-	UninitializedVariable(variable:String, pos:json2object.Position);
-	UnknownVariable(variable:String, pos:json2object.Position);
-	ParserError(message:String, pos:json2object.Position);
-	CustomFunctionException(e:Any, pos:json2object.Position);
-}

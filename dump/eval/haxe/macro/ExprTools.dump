@@ -1,7 +1,0 @@
-@:keep @:directlyUsed @:used
-class haxe.macro.ExprTools {
-
-	public static function toString(e:haxe.macro.Expr) {
-		return new haxe.macro.Printer(null).printExpr(e);
-	}
-}

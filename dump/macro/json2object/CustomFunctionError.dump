@@ -1,9 +1,0 @@
-class json2object.CustomFunctionError {
-
-	@:allow(json2object.reader.DataBuilder) @:allow(json2object.writer.DataBuilder)
-	function new(message:String) {
-		this.message = message;
-	}
-
-	public var message(default,ctor):String;
-}
