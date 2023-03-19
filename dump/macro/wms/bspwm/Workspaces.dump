@@ -1,0 +1,18 @@
+class wms.bspwm.Workspaces {
+
+	public static function name(names:Array<String>) {
+		var file = sys.io.File.append("config", false);
+		var str = "bspc monitor -d ";
+		{
+			var ` = 0;
+			while (` < names.length) {
+				var n = names[`];
+				++ `;
+				str = str + n + " ";
+			};
+		};
+		str = str + "\n";
+		file.writeString(str, null);
+		file.close();
+	}
+}

@@ -1,0 +1,123 @@
+@:directlyUsed @:used @:build(wms.bspwm.macros.Macro.build_config())
+class wms.bspwm.Config {
+
+	public static var border_width(default,set):String;
+
+	public static function set_border_width(x:String) {
+		return wms.bspwm.Config.border_width = "bspc config " + "border_width" + " " + x;
+	}
+
+	public static var window_gap(default,set):String;
+
+	public static function set_window_gap(x:String) {
+		return wms.bspwm.Config.window_gap = "bspc config " + "window_gap" + " " + x;
+	}
+
+	public static var active_border_color(default,set):String;
+
+	public static function set_active_border_color(x:String) {
+		return wms.bspwm.Config.active_border_color = "bspc config " + "active_border_color" + " " + x;
+	}
+
+	public static var focus_follows_pointer(default,set):String;
+
+	public static function set_focus_follows_pointer(x:String) {
+		return wms.bspwm.Config.focus_follows_pointer = "bspc config " + "focus_follows_pointer" + " " + x;
+	}
+
+	public static var focused_border_color(default,set):String;
+
+	public static function set_focused_border_color(x:String) {
+		return wms.bspwm.Config.focused_border_color = "bspc config " + "focused_border_color" + " " + x;
+	}
+
+	public static var left_padding(default,set):String;
+
+	public static function set_left_padding(x:String) {
+		return wms.bspwm.Config.left_padding = "bspc config " + "left_padding" + " " + x;
+	}
+
+	public static var left_monocle_padding(default,set):String;
+
+	public static function set_left_monocle_padding(x:String) {
+		return wms.bspwm.Config.left_monocle_padding = "bspc config " + "left_monocle_padding" + " " + x;
+	}
+
+	public static var right_padding(default,set):String;
+
+	public static function set_right_padding(x:String) {
+		return wms.bspwm.Config.right_padding = "bspc config " + "right_padding" + " " + x;
+	}
+
+	public static var right_monocle_padding(default,set):String;
+
+	public static function set_right_monocle_padding(x:String) {
+		return wms.bspwm.Config.right_monocle_padding = "bspc config " + "right_monocle_padding" + " " + x;
+	}
+
+	public static var top_padding(default,set):String;
+
+	public static function set_top_padding(x:String) {
+		return wms.bspwm.Config.top_padding = "bspc config " + "top_padding" + " " + x;
+	}
+
+	public static var top_monocle_padding(default,set):String;
+
+	public static function set_top_monocle_padding(x:String) {
+		return wms.bspwm.Config.top_monocle_padding = "bspc config " + "top_monocle_padding" + " " + x;
+	}
+
+	public static var pointer_follows_focus(default,set):String;
+
+	public static function set_pointer_follows_focus(x:String) {
+		return wms.bspwm.Config.pointer_follows_focus = "bspc config " + "pointer_follows_focus" + " " + x;
+	}
+
+	public static var pointer_follows_monitor(default,set):String;
+
+	public static function set_pointer_follows_monitor(x:String) {
+		return wms.bspwm.Config.pointer_follows_monitor = "bspc config " + "pointer_follows_monitor" + " " + x;
+	}
+
+	public static var click_to_focus(default,set):String;
+
+	public static function set_click_to_focus(x:String) {
+		return wms.bspwm.Config.click_to_focus = "bspc config " + "click_to_focus" + " " + x;
+	}
+
+	public static var gapless_monocle(default,set):String;
+
+	public static function set_gapless_monocle(x:String) {
+		return wms.bspwm.Config.gapless_monocle = "bspc config " + "gapless_monocle" + " " + x;
+	}
+
+	public static var borderless_monocle(default,set):String;
+
+	public static function set_borderless_monocle(x:String) {
+		return wms.bspwm.Config.borderless_monocle = "bspc config " + "borderless_monocle" + " " + x;
+	}
+
+	public static var normal_border_color(default,set):String;
+
+	public static function set_normal_border_color(x:String) {
+		return wms.bspwm.Config.normal_border_color = "bspc config " + "normal_border_color" + " " + x;
+	}
+
+	public static var center_pseudo_tiled(default,set):String;
+
+	public static function set_center_pseudo_tiled(x:String) {
+		return wms.bspwm.Config.center_pseudo_tiled = "bspc config " + "center_pseudo_tiled" + " " + x;
+	}
+
+	public static var split_ratio(default,set):String;
+
+	public static function set_split_ratio(x:String) {
+		return wms.bspwm.Config.split_ratio = "bspc config " + "split_ratio" + " " + x;
+	}
+
+	public static var single_monocle(default,set):String;
+
+	public static function set_single_monocle(x:String) {
+		return wms.bspwm.Config.single_monocle = "bspc config " + "single_monocle" + " " + x;
+	}
+}

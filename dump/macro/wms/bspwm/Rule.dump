@@ -1,0 +1,63 @@
+class wms.bspwm.Rule {
+
+	@:has_untyped
+	public static macro function add_rule(name:haxe.macro.Expr) {
+		var rule = "bspc rule -a";
+		@:ast(switch name.expr {
+	case EObjectDecl(fields):
+		if (Context.unify(Context.typeof(name), Context.getType("TRule"))) {
+			var fld_names = fields.map(function(e) ->  @:implicitReturn return e.field);
+			var cnt = 0;
+			for (f  in  fields) {
+				rule = "$rule ${fld_names[cnt]}=${f.expr.toString()}";
+				cnt++;
+			};
+			rule = rule + "\n";
+		};	
+	default:
+		haxe.macro.Context.error("Invalid expression", name.pos);	
+}) {
+			var ` = name.expr;
+			if (enumIndex ` == 5) {
+				var `1 = `[0];
+				{
+					var fields = `1;
+					{
+						if (haxe.macro.Context.unify(haxe.macro.Context.typeof(name), haxe.macro.Context.getType("TRule"))) {
+							var fld_names = {
+								var ` = [];
+								{
+									var `1 = 0;
+									var `2 = fields;
+									while (`1 < `2.length) {
+										var v = `2[`1];
+										++ `1;
+										`.push(function(e:haxe.macro.ObjectField) {
+											return e.field;
+										}(v));
+									};
+								};
+								`;
+							};
+							var cnt = 0;
+							{
+								var ` = 0;
+								while (` < fields.length) {
+									var f = fields[`];
+									++ `;
+									rule = "" + rule + " " + fld_names[cnt] + "=" + haxe.macro.ExprTools.toString(f.expr);
+									cnt ++;
+								};
+							};
+							rule = rule + "\n";
+						};
+					};
+				};
+			} else {
+				haxe.macro.Context.error("Invalid expression", name.pos);
+			};
+		};
+		sys.io.File.append("config", false).writeString(rule, null);
+		return cast {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("null")), pos : $__mk_pos__("src/wms/bspwm/Bspwm.hx", 790, 794)};
+	}
+}

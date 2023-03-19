@@ -1,0 +1,3 @@
+@:build(wms.bspwm.macros.Macro.build_config())
+class wms.bspwm.Config {
+}

@@ -1,0 +1,81 @@
+class wms.bspwm.macros.Macro {
+
+	@:has_untyped
+	public static function build_config() {
+		var fields = haxe.macro.Context.getBuildFields();
+		var types = haxe.macro.Context.getModule("wms.bspwm.Bspwm");
+		{
+			var ` = 0;
+			while (` < types.length) {
+				var t = types[`];
+				++ `;
+				@:ast(switch (t) {
+	case TEnum(t, _):
+		for (f  in  t.get().names) {
+			fields.push({ name : f, kind : FProp("default", "set", (TPath({ pack : [], name : "String", params : [] }) : haxe.macro.Expr.ComplexType)), pos : Context.currentPos(), access : [Access.APublic, Access.AStatic] });
+			fields.push({ name : "set_$f", kind : FFun({ args : [{ name : "x" }], ret : (TPath({ pack : [], name : "String", params : [] }) : haxe.macro.Expr.ComplexType), expr : ({ expr : EBlock([{ expr : EReturn({ expr : EBinop(OpAssign, { expr : EConst(CIdent(f)), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 817, 820) }, { expr : EBinop(OpAdd, { expr : EBinop(OpAdd, { expr : EBinop(OpAdd, { expr : EConst(CString("bspc config ", DoubleQuotes)), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 823, 837) }, haxe.macro.Context.makeExpr(@$v f, untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 842, 845))), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 823, 845) }, { expr : EConst(CString(" ", DoubleQuotes)), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 848, 851) }), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 823, 851) }, { expr : EConst(CIdent("x")), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 854, 855) }), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 823, 855) }), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 817, 855) }), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 808, 855) }]), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 797, 866) } : haxe.macro.Expr) }), access : [Access.APublic, Access.AStatic], pos : Context.currentPos() });
+		};	
+	case _:
+}) if (enumIndex t == 1) {
+					var ` = t[0];
+					var `1 = t[1];
+					{
+						var t = `;
+						{
+							{
+								var ` = 0;
+								var `1 = t.get().names;
+								while (` < `1.length) {
+									var f = `1[`];
+									++ `;
+									fields.push({name : f, kind : haxe.macro.FieldType.FProp("default", "set", cast haxe.macro.ComplexType.TPath({pack : [], name : "String", params : []}), null), pos : haxe.macro.Context.currentPos(), access : [haxe.macro.Access.APublic, haxe.macro.Access.AStatic]});
+									fields.push({name : "set_" + f, kind : haxe.macro.FieldType.FFun({args : [{name : "x"}], ret : cast haxe.macro.ComplexType.TPath({pack : [], name : "String", params : []}), expr : cast {expr : haxe.macro.ExprDef.EBlock([{expr : haxe.macro.ExprDef.EReturn({expr : haxe.macro.ExprDef.EBinop(haxe.macro.Binop.OpAssign, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent(f)), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 817, 820)}, {expr : haxe.macro.ExprDef.EBinop(haxe.macro.Binop.OpAdd, {expr : haxe.macro.ExprDef.EBinop(haxe.macro.Binop.OpAdd, {expr : haxe.macro.ExprDef.EBinop(haxe.macro.Binop.OpAdd, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CString("bspc config ", haxe.macro.StringLiteralKind.DoubleQuotes)), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 823, 837)}, haxe.macro.Context.makeExpr(f, $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 842, 845))), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 823, 845)}, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CString(" ", haxe.macro.StringLiteralKind.DoubleQuotes)), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 848, 851)}), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 823, 851)}, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("x")), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 854, 855)}), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 823, 855)}), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 817, 855)}), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 808, 855)}]), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 797, 866)}}), access : [haxe.macro.Access.APublic, haxe.macro.Access.AStatic], pos : haxe.macro.Context.currentPos()});
+								};
+							};
+						};
+					};
+				} else {};
+			};
+		};
+		return fields;
+	}
+
+	@:has_untyped
+	public static function gen_config() {
+		var fields = haxe.macro.Context.getBuildFields();
+		var exprs = [];
+		{
+			var ` = 0;
+			while (` < fields.length) {
+				var f = fields[`];
+				++ `;
+				@:ast(switch (f.kind) {
+	case FFun(f):
+		File.write("config", false);
+		exprs.push(({ expr : EVars([{ name : "file_cnt", type : TPath({ pack : [], name : "String", params : [] }), expr : { expr : EConst(CString("", DoubleQuotes)), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1257, 1259) }, isFinal : false, meta : [] }]), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1235, 1238) } : haxe.macro.Expr));
+		f.expr.iter(function(e) ->  @:implicitReturn return if (e.toString().startsWith("Config")) exprs.push(({ expr : EBinop(OpAssign, { expr : EConst(CIdent("file_cnt")), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1342, 1350) }, { expr : EBinop(OpAdd, { expr : EBinop(OpAdd, { expr : EConst(CIdent("file_cnt")), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1353, 1361) }, e), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1353, 1366) }, { expr : EConst(CString("\n", SingleQuotes)), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1369, 1373) }), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1353, 1373) }), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1342, 1373) } : haxe.macro.Expr)));
+		exprs.push(({ expr : ECall({ expr : EField({ expr : ECall({ expr : EField({ expr : EField({ expr : EField({ expr : EConst(CIdent("sys")), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1399, 1402) }, "io"), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1399, 1405) }, "File"), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1399, 1410) }, "append"), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1399, 1417) }, [{ expr : EConst(CString("config", DoubleQuotes)), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1418, 1426) }, { expr : EConst(CIdent("false")), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1428, 1433) }]), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1399, 1434) }, "writeString"), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1399, 1446) }, [{ expr : EConst(CIdent("file_cnt")), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1447, 1455) }]), pos : untyped $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1399, 1456) } : haxe.macro.Expr));	
+	case _:
+}) {
+					var ` = f.kind;
+					if (enumIndex ` == 1) {
+						var `1 = `[0];
+						{
+							var f = `1;
+							{
+								sys.io.File.write("config", false);
+								exprs.push(cast {expr : haxe.macro.ExprDef.EVars([{name : "file_cnt", type : haxe.macro.ComplexType.TPath({pack : [], name : "String", params : []}), expr : {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CString("", haxe.macro.StringLiteralKind.DoubleQuotes)), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1257, 1259)}, isFinal : cast false, meta : []}]), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1235, 1238)});
+								haxe.macro.ExprTools.iter(f.expr, function(e:haxe.macro.Expr) if (StringTools.startsWith(haxe.macro.ExprTools.toString(e), "Config")) {
+									exprs.push(cast {expr : haxe.macro.ExprDef.EBinop(haxe.macro.Binop.OpAssign, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("file_cnt")), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1342, 1350)}, {expr : haxe.macro.ExprDef.EBinop(haxe.macro.Binop.OpAdd, {expr : haxe.macro.ExprDef.EBinop(haxe.macro.Binop.OpAdd, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("file_cnt")), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1353, 1361)}, e), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1353, 1366)}, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CString("\n", haxe.macro.StringLiteralKind.SingleQuotes)), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1369, 1373)}), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1353, 1373)}), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1342, 1373)});
+								});
+								exprs.push(cast {expr : haxe.macro.ExprDef.ECall({expr : haxe.macro.ExprDef.EField({expr : haxe.macro.ExprDef.ECall({expr : haxe.macro.ExprDef.EField({expr : haxe.macro.ExprDef.EField({expr : haxe.macro.ExprDef.EField({expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("sys")), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1399, 1402)}, "io"), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1399, 1405)}, "File"), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1399, 1410)}, "append"), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1399, 1417)}, [{expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CString("config", haxe.macro.StringLiteralKind.DoubleQuotes)), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1418, 1426)}, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("false")), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1428, 1433)}]), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1399, 1434)}, "writeString"), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1399, 1446)}, [{expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("file_cnt")), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1447, 1455)}]), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1399, 1456)});
+							};
+						};
+					} else {};
+				};
+			};
+		};
+		fields.push({name : "setup", kind : haxe.macro.FieldType.FFun({args : [], expr : cast {expr : haxe.macro.ExprDef.EBlock(exprs), pos : $__mk_pos__("src/wms/bspwm/macros/Macro.hx", 1562, 1569)}}), access : [haxe.macro.Access.APublic, haxe.macro.Access.AStatic], pos : haxe.macro.Context.currentPos()});
+		return fields;
+	}
+}

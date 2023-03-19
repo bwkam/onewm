@@ -1,0 +1,33 @@
+@:keep @:used
+class haxe.io.Output {
+
+	public function writeByte(c:Int) {
+		throw new haxe.exceptions.NotImplementedException(null, null, {fileName : "haxe/io/Output.hx", lineNumber : 47, className : "haxe.io.Output", methodName : "writeByte"});
+	}
+
+	@:has_untyped
+	public function writeBytes(s:haxe.io.Bytes, pos:Int, len:Int) {
+		if ((pos < 0 || len < 0 || pos + len > s.length)) throw haxe.Exception.thrown(haxe.io.Error.OutsideBounds);
+		var b = s.getData();
+		var k = len;
+		while ((k > 0)) {
+			this.writeByte(cast b.get(pos));
+			++ pos;
+			-- k;
+		};
+		return len;
+	}
+
+	public function writeFullBytes(s:haxe.io.Bytes, pos:Int, len:Int) {
+		while ((len > 0)) {
+			var k = this.writeBytes(s, pos, len);
+			pos += k;
+			len -= k;
+		};
+	}
+
+	public function writeString(s:String, encoding:Null<haxe.io.Encoding> = null) {
+		var b = haxe.io.Bytes.ofString(s, encoding);
+		this.writeFullBytes(b, 0, b.length);
+	}
+}
