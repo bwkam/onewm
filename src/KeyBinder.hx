@@ -1,40 +1,10 @@
-import sys.io.File;
-import haxe.macro.Context;
-
-using StringTools;
-using haxe.macro.ExprTools;
-using Lambda;
-
-class Rule {
-	macro public static function add_rule(name:haxe.macro.Expr) {
-		var rule = Globals.wm_name == "bspwm" ? "bspc rule -a" : "for_window";
-		switch name.expr {
-			case EObjectDecl(fields):
-				if (Context.unify(Context.typeof(name), Context.getType('Rule.TRule'))) {
-					var fld_names = fields.map(e -> e.field);
-					var cnt = 0;
-					Globals.wm_name == "bspwm" ? (for (f in fields) {
-						rule = '$rule ${fld_names[cnt]}=${f.expr.toString()}';
-						cnt++;
-					}) : {
-						// rule = '$rule ${fld_names[cnt]}=${f.expr.toString()}';
-						// for ()
-						// trace('$rule [${}]');
-						// rule = '$rule [${fields.find(e -> e.field == "app")}]';
-						trace(bindsym(true, null, Mod3, "r", ToggleFloating));
-						cnt++;
-					};
-
-					rule = rule + '\n';
-				}
-			default:
-				haxe.macro.Context.error('Invalid expression', name.pos);
-		}
-
-		File.append("config", false).writeString(rule);
-
-		return macro null;
-	}
+/**
+	TODO: THIS PROJECT WILL TRY TO GLOBALLY USE SXHD AS THE ONLY HOTKEY
+	DAEMON BECAUSE ITS ALMOST IMPOSSIBLE TO DO THAT WITH EACH WM'S
+	OUT OF THE OVEN SOLUTION.
+**/
+class KeyBinder {
+	public static function bind_key_to_action() {}
 
 	public static function bindsym(release:Bool = false, ?group:String = "", ?mod:Mod = None, keysym:String, action:Action):String {
 		return 'bindsym ${release ? " --release " : ""} $group${group == "" ? "" : "+"}${resolve_mod(mod)}+$keysym ${resolve_action(action)}';
@@ -86,15 +56,6 @@ class Rule {
 				}
 		}
 	}
-}
-
-typedef TRule = {
-	@:optional var app:String;
-	@:optional var state:String;
-	@:optional var desktop:String;
-	@:optional var follow:String;
-	@:optional var manage:String;
-	@:optional var focus:String;
 }
 
 enum Mod {
