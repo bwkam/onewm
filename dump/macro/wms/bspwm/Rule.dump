@@ -58,6 +58,6 @@ class wms.bspwm.Rule {
 			};
 		};
 		sys.io.File.append("config", false).writeString(rule, null);
-		return cast {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("null")), pos : $__mk_pos__("src/wms/bspwm/Bspwm.hx", 790, 794)};
+		return cast {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("null")), pos : $__mk_pos__("src/wms/bspwm/Bspwm.hx", 800, 804)};
 	}
 }

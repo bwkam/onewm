@@ -1,13 +1,10 @@
 import haxe.macro.Context;
-import haxe.Json;
 import sys.io.File;
-import utils.Utils;
-import wms.bspwm.Bspwm;
 
 using haxe.macro.ExprTools;
 using Lambda;
 
-@:build(wms.bspwm.macros.Macro.gen_config())
+@:build(utils.Utils.append_config_opts())
 class Main {
 	static function main() {
 		Config.border_width = "10";
