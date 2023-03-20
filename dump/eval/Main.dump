@@ -3,9 +3,6 @@ class Main {
 
 	@:keep
 	static function main() {
-		Config.set_border_width("10");
-		Config.set_top_padding("3");
-		Workspaces.name(["1", "2", "3"]);
 		Main.setup();
 		Main.inject();
 	}
@@ -20,10 +17,7 @@ class Main {
 	}
 
 	public static function setup() {
-		var file_cnt = "";
-		file_cnt = "" + Config.set_border_width("10") + "\n";
-		file_cnt = file_cnt + Config.set_top_padding("3") + "\n";
-		sys.io.File.append("config", false).writeString(file_cnt, null);
+		sys.io.File.append("config", false).writeString("", null);
 		sys.io.File.append("config", false).writeString("", null);
 		sys.io.File.append("config", false).writeString("", null);
 	}
