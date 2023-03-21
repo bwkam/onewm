@@ -1,24 +1,8 @@
-@:used @:build(utils.Utils.append_config_opts())
+@:used
 class Main {
 
 	@:keep
 	static function main() {
-		Main.setup();
-		Main.inject();
-	}
-
-	@:pure(inferredPure)
-	public static function extra() {
-		return "echo \"hi\"";
-	}
-
-	public static function inject() {
-		sys.io.File.append("config", null).writeString(Main.extra() + "\n", null);
-	}
-
-	public static function setup() {
-		sys.io.File.append("config", false).writeString("", null);
-		sys.io.File.append("config", false).writeString("", null);
-		sys.io.File.append("config", false).writeString("", null);
+		haxe.Log.trace(wms.BspwmConfig.set_border_width("10"), {fileName : "src/Main.hx", lineNumber : 8, className : "Main", methodName : "main"});
 	}
 }

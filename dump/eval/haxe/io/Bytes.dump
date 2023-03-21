@@ -1,4 +1,4 @@
-@:directlyUsed @:used
+@:used
 extern class haxe.io.Bytes {
 
 	function new(length:Int, b:haxe.io.BytesData):Void;

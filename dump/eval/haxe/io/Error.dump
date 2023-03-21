@@ -1,4 +1,4 @@
-@:directlyUsed @:used @:keep
+@:used @:keep
 enum haxe.io.Error {
 	Blocked;
 	Overflow;
