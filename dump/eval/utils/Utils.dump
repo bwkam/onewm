@@ -1,2 +1,50 @@
+@:used
 class utils.Utils {
+
+	public static function build_config_opts(module:String, class_name:String) {
+		var fields = haxe.macro.Context.getBuildFields();
+		var types = haxe.macro.Context.getModule("wms." + module + "." + class_name);
+		{
+			var ` = 0;
+			while ((` < types.length)) {
+				var t = types[`];
+				++ `;
+				if ((enumIndex t == 1)) {
+					var ` = 0;
+					var `1 = t[0].get().names;
+					while ((` < `1.length)) {
+						var f = `1[`];
+						++ `;
+						var tmp = haxe.macro.Context.currentPos();
+						fields.push({name : f, kind : haxe.macro.FieldType.FProp("default", "set", haxe.macro.ComplexType.TPath({pack : [], name : "String", params : []}), null), pos : tmp, access : [haxe.macro.Access.APublic, haxe.macro.Access.AStatic]});
+						var tmp = haxe.macro.Context.makeExpr(f, haxe.macro.Context.makePosition({file : "src/utils/Utils.hx", min : 1170, max : 1173}));
+						var tmp = haxe.macro.Context.currentPos();
+						fields.push({name : "set_" + f, kind : haxe.macro.FieldType.FFun({args : [{name : "x"}], ret : haxe.macro.ComplexType.TPath({pack : [], name : "String", params : []}), expr : cast {expr : haxe.macro.ExprDef.EBlock([{expr : haxe.macro.ExprDef.EReturn({expr : haxe.macro.ExprDef.EBinop(haxe.macro.Binop.OpAssign, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent(f)), pos : {file : "src/utils/Utils.hx", min : 1145, max : 1148}}, {expr : haxe.macro.ExprDef.EBinop(haxe.macro.Binop.OpAdd, {expr : haxe.macro.ExprDef.EBinop(haxe.macro.Binop.OpAdd, {expr : haxe.macro.ExprDef.EBinop(haxe.macro.Binop.OpAdd, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CString("bspc config ", haxe.macro.StringLiteralKind.DoubleQuotes)), pos : {file : "src/utils/Utils.hx", min : 1151, max : 1165}}, tmp), pos : {file : "src/utils/Utils.hx", min : 1151, max : 1173}}, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CString(" ", haxe.macro.StringLiteralKind.DoubleQuotes)), pos : {file : "src/utils/Utils.hx", min : 1176, max : 1179}}), pos : {file : "src/utils/Utils.hx", min : 1151, max : 1179}}, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("x")), pos : {file : "src/utils/Utils.hx", min : 1182, max : 1183}}), pos : {file : "src/utils/Utils.hx", min : 1151, max : 1183}}), pos : {file : "src/utils/Utils.hx", min : 1145, max : 1183}}), pos : {file : "src/utils/Utils.hx", min : 1136, max : 1183}}]), pos : {file : "src/utils/Utils.hx", min : 1125, max : 1194}}}), access : [haxe.macro.Access.APublic, haxe.macro.Access.AStatic], pos : tmp});
+					};
+				};
+			};
+		};
+		return fields;
+	}
+
+	public static function append_config_opts() {
+		var fields = haxe.macro.Context.getBuildFields();
+		var exprs = [];
+		{
+			var ` = 0;
+			while ((` < fields.length)) {
+				var ` = fields[` ++].kind;
+				if ((enumIndex ` == 1)) {
+					sys.io.File.write("config", false);
+					exprs.push(cast {expr : haxe.macro.ExprDef.EVars([{name : "file_cnt", type : haxe.macro.ComplexType.TPath({pack : [], name : "String", params : []}), expr : {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CString("", haxe.macro.StringLiteralKind.DoubleQuotes)), pos : {file : "src/utils/Utils.hx", min : 1593, max : 1595}}, isFinal : cast false, meta : []}]), pos : {file : "src/utils/Utils.hx", min : 1571, max : 1574}});
+					haxe.macro.ExprTools.iter(`[0].expr, function(e:haxe.macro.Expr) {
+						if ((StringTools.startsWith(haxe.macro.ExprTools.toString(e), "Config"))) exprs.push(cast {expr : haxe.macro.ExprDef.EBinop(haxe.macro.Binop.OpAssign, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("file_cnt")), pos : {file : "src/utils/Utils.hx", min : 1678, max : 1686}}, {expr : haxe.macro.ExprDef.EBinop(haxe.macro.Binop.OpAdd, {expr : haxe.macro.ExprDef.EBinop(haxe.macro.Binop.OpAdd, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("file_cnt")), pos : {file : "src/utils/Utils.hx", min : 1689, max : 1697}}, e), pos : {file : "src/utils/Utils.hx", min : 1689, max : 1702}}, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CString("\n", haxe.macro.StringLiteralKind.SingleQuotes)), pos : {file : "src/utils/Utils.hx", min : 1705, max : 1709}}), pos : {file : "src/utils/Utils.hx", min : 1689, max : 1709}}), pos : {file : "src/utils/Utils.hx", min : 1678, max : 1709}});
+					});
+					exprs.push(cast {expr : haxe.macro.ExprDef.ECall({expr : haxe.macro.ExprDef.EField({expr : haxe.macro.ExprDef.ECall({expr : haxe.macro.ExprDef.EField({expr : haxe.macro.ExprDef.EField({expr : haxe.macro.ExprDef.EField({expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("sys")), pos : {file : "src/utils/Utils.hx", min : 1735, max : 1738}}, "io"), pos : {file : "src/utils/Utils.hx", min : 1735, max : 1741}}, "File"), pos : {file : "src/utils/Utils.hx", min : 1735, max : 1746}}, "append"), pos : {file : "src/utils/Utils.hx", min : 1735, max : 1753}}, [{expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CString("config", haxe.macro.StringLiteralKind.DoubleQuotes)), pos : {file : "src/utils/Utils.hx", min : 1754, max : 1762}}, {expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("false")), pos : {file : "src/utils/Utils.hx", min : 1764, max : 1769}}]), pos : {file : "src/utils/Utils.hx", min : 1735, max : 1770}}, "writeString"), pos : {file : "src/utils/Utils.hx", min : 1735, max : 1782}}, [{expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("file_cnt")), pos : {file : "src/utils/Utils.hx", min : 1783, max : 1791}}]), pos : {file : "src/utils/Utils.hx", min : 1735, max : 1792}});
+				};
+			};
+		};
+		fields.push({name : "setup", kind : haxe.macro.FieldType.FFun({args : [], expr : cast {expr : haxe.macro.ExprDef.EBlock(exprs), pos : {file : "src/utils/Utils.hx", min : 1898, max : 1905}}}), access : [haxe.macro.Access.APublic, haxe.macro.Access.AStatic], pos : haxe.macro.Context.currentPos()});
+		return fields;
+	}
 }

@@ -1,4 +1,4 @@
-@:directlyUsed @:used @:build(wms.bspwm.macros.Macro.build_config())
+@:directlyUsed @:used @:build(utils.Utils.build_config_opts("bspwm", "Bspwm"))
 class wms.bspwm.Config {
 
 	public static var border_width(default,set):String;

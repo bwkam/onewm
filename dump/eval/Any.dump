@@ -1,2 +1,2 @@
-@:used @:forward.variance
+@:forward.variance
 abstract Any {}

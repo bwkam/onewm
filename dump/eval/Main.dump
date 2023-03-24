@@ -1,30 +1,8 @@
-@:used @:build(wms.bspwm.macros.Macro.gen_config())
+@:used
 class Main {
 
 	@:keep
 	static function main() {
-		wms.bspwm.Config.set_border_width("10");
-		wms.bspwm.Config.set_top_padding("3");
-		wms.bspwm.Workspaces.name(["1", "2", "3"]);
-		Main.setup();
-		Main.inject();
-	}
-
-	@:pure(inferredPure)
-	public static function extra() {
-		return "echo \"hi\"";
-	}
-
-	public static function inject() {
-		sys.io.File.append("config", null).writeString(Main.extra() + "\n", null);
-	}
-
-	public static function setup() {
-		var file_cnt = "";
-		file_cnt = "" + wms.bspwm.Config.set_border_width("10") + "\n";
-		file_cnt = file_cnt + wms.bspwm.Config.set_top_padding("3") + "\n";
-		sys.io.File.append("config", false).writeString(file_cnt, null);
-		sys.io.File.append("config", false).writeString("", null);
-		sys.io.File.append("config", false).writeString("", null);
+		haxe.Log.trace(wms.BspwmConfig.set_border_width("10"), {fileName : "src/Main.hx", lineNumber : 8, className : "Main", methodName : "main"});
 	}
 }
